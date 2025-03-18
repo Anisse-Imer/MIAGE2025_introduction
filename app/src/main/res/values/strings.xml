@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">MIAGE2025_introduction</string>
+    <string name="app_name" translatable="false">MIAGE2025_introduction</string>
+    <string name="contenu_du_textview">Bonjour Monde ! (df)</string>
 </resources>

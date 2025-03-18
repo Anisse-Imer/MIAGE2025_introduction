@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="contenu_du_textview">Hello World !</string>
+</resources>
