@@ -15,6 +15,9 @@ public class ThirdActivity extends AppCompatActivity {
 
     private Button quitActivityButton;
 
+    private String login;
+    private String pwd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,15 +25,19 @@ public class ThirdActivity extends AppCompatActivity {
         this.quitActivityButton = findViewById(R.id.id_quit_thirdactivity);
         quitActivityButton.setOnClickListener(
                 View -> {
-                    setResult(RESULT_OK);
+                    Intent intent = new Intent();
+                    intent.putExtra("login_key", this.login);
+                    intent.putExtra("pwd_key", this.pwd);
+                    setResult(RESULT_OK, intent);
                     finish();
                 }
         );
 
         Intent intent = getIntent();
         Bundle extractedBundle = intent.getExtras();
-        String login = extractedBundle.getString("login_key", "login_empty");
-        String pwd = extractedBundle.getString("pwd_key", "pwd_empty");
-        Toast.makeText(this,  login + " : " + pwd, Toast.LENGTH_SHORT).show();
+        this.login = extractedBundle.getString("login_key", "login_empty");
+        this.pwd = extractedBundle.getString("pwd_key", "pwd_empty");
+
+        Toast.makeText(this,  this.login + " : " + this.pwd, Toast.LENGTH_SHORT).show();
     }
 }

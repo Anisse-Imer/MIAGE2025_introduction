@@ -23,6 +23,7 @@ public class BonjourMonde extends AppCompatActivity {
     private Button switchSecondaryPageButton;
 
     private Button switchThirdActivityButton;
+    private Button callBroadCastButton;
     private EditText loginEditText;
     private EditText pwdEditText;
 
@@ -36,6 +37,7 @@ public class BonjourMonde extends AppCompatActivity {
         setContentView(R.layout.layout_bonjour_monde);
         this.switchSecondaryPageButton = findViewById(R.id.id_switch_secondary_page_button);
         this.switchThirdActivityButton = findViewById(R.id.id_thirdactivity_button);
+        this.callBroadCastButton = findViewById(R.id.id_button_call_broadcast);
 
         this.myLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -45,7 +47,11 @@ public class BonjourMonde extends AppCompatActivity {
                         message = "resulat true";
                     else
                         message = "resultat false";
-                    Toast.makeText(BonjourMonde.this, "BonjourMonde - result:code : " + message, Toast.LENGTH_SHORT).show();
+                    // Get intent from previously called branch
+                    Intent extractedIntent = resultat.getData();
+                    Bundle receivedBundle = extractedIntent.getExtras();
+                    Toast.makeText(BonjourMonde.this, "ThirdActivity Return : " + message + " : " +
+                            receivedBundle.getString("login_key", "") + "/" + receivedBundle.getString("pwd_key", ""), Toast.LENGTH_SHORT).show();
                 }
         );
 
@@ -66,6 +72,7 @@ public class BonjourMonde extends AppCompatActivity {
                     startActivity(intent);
                 }
         );
+
         this.switchThirdActivityButton.setOnClickListener(
                 View -> {
                     Intent intent = new Intent(BonjourMonde.this, ThirdActivity.class);
@@ -78,6 +85,17 @@ public class BonjourMonde extends AppCompatActivity {
                     bundle.putString("pwd_key", inputPwd);
                     intent.putExtras(bundle);
                     this.myLauncher.launch(intent);
+                }
+        );
+
+        this.callBroadCastButton.setOnClickListener(
+                View -> {
+                    Intent intent = new Intent(this, MyBroadcastReceiver.class);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("broadcast_data", "Hello world - broadcast call");
+                    intent.putExtras(bundle);
+                    sendBroadcast(intent);
                 }
         );
     }
